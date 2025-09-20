@@ -26,8 +26,6 @@ class JARVIS(Client):
         self.name = f"{me.first_name} {me.last_name or ''}".strip()
         self.mention = me.mention
 
-        async for dialog in self.get_dialogs(): pass
-
         try:
             await self.send_message(
                 config.LOGGER_ID,
