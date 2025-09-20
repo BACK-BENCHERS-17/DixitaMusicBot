@@ -10,7 +10,7 @@ from config import BANNED_USERS
 
 
 @app.on_message(
-    filters.command(["end"], prefixes=["/", "!"]) & filters.group & ~BANNED_USERS
+    filters.command(["stop"], prefixes=["/", "!"]) & filters.group & ~BANNED_USERS
 )
 @AdminRightsCheck()
 @TopicAccessCheck

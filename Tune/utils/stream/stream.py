@@ -54,6 +54,43 @@ async def send_photo_to_topics(chat_id, photo, caption, reply_markup=None):
     # Return the first message for compatibility with existing code
     return messages[0] if messages else None
 
+async def send_message_to_topics(chat_id, text, reply_markup=None, disable_web_page_preview=True):
+    """
+    Send message to all topics in a chat if topics exist, otherwise send to main chat.
+    Returns the message object from the first successful send (for compatibility).
+    """
+    # Get all topics for this chat
+    topics = await get_chat_topics(chat_id)
+    
+    if not topics:
+        # No topics configured, send to main chat
+        return await app.send_message(
+            chat_id=chat_id,
+            text=text,
+            reply_markup=reply_markup,
+            disable_web_page_preview=disable_web_page_preview,
+        )
+    
+    # Send to all topics
+    messages = []
+    for topic_id in topics:
+        try:
+            message = await app.send_message(
+                chat_id=chat_id,
+                text=text,
+                reply_markup=reply_markup,
+                disable_web_page_preview=disable_web_page_preview,
+                message_thread_id=topic_id,
+            )
+            messages.append(message)
+        except Exception as e:
+            # Log error but continue with other topics
+            print(f"Failed to send message to topic {topic_id} in chat {chat_id}: {e}")
+            continue
+    
+    # Return the first message for compatibility with existing code
+    return messages[0] if messages else None
+
 
 @capture_internal_err
 async def stream(
@@ -212,7 +249,7 @@ async def stream(
             )
             position = len(db.get(chat_id)) - 1
             button = aq_markup(_, chat_id)
-            await app.send_message(
+            await send_message_to_topics(
                 chat_id=original_chat_id,
                 text=_["queue_4"].format(position, title[:27], duration_min, user_name),
                 reply_markup=InlineKeyboardMarkup(button),
@@ -276,7 +313,7 @@ async def stream(
             )
             position = len(db.get(chat_id)) - 1
             button = aq_markup(_, chat_id)
-            await app.send_message(
+            await send_message_to_topics(
                 chat_id=original_chat_id,
                 text=_["queue_4"].format(position, title[:27], duration_min, user_name),
                 reply_markup=InlineKeyboardMarkup(button),
@@ -331,7 +368,7 @@ async def stream(
             )
             position = len(db.get(chat_id)) - 1
             button = aq_markup(_, chat_id)
-            await app.send_message(
+            await send_message_to_topics(
                 chat_id=original_chat_id,
                 text=_["queue_4"].format(position, title[:27], duration_min, user_name),
                 reply_markup=InlineKeyboardMarkup(button),
@@ -385,7 +422,7 @@ async def stream(
             )
             position = len(db.get(chat_id)) - 1
             button = aq_markup(_, chat_id)
-            await app.send_message(
+            await send_message_to_topics(
                 chat_id=original_chat_id,
                 text=_["queue_4"].format(position, title[:27], duration_min, user_name),
                 reply_markup=InlineKeyboardMarkup(button),
