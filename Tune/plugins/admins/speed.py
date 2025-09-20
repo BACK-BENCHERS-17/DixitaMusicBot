@@ -5,7 +5,7 @@ from config import BANNED_USERS, adminlist
 from Tune import app
 from Tune.core.call import JARVIS
 from Tune.misc import SUDOERS, db
-from Tune.utils import AdminRightsCheck
+from Tune.utils import AdminRightsCheck, TopicAccessCheck
 from Tune.utils.database import is_active_chat, is_nonadmin_chat
 from Tune.utils.decorators.language import languageCB
 from Tune.utils.inline import close_markup, speed_markup
@@ -19,6 +19,7 @@ checker = []
     & ~BANNED_USERS
 )
 @AdminRightsCheck()
+@TopicAccessCheck
 async def playback(cli, message: Message, _, chat_id):
     playing = db.get(chat_id)
     if not playing:

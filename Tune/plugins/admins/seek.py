@@ -4,7 +4,7 @@ from pyrogram.types import Message
 from Tune import YouTube, app
 from Tune.core.call import JARVIS
 from Tune.misc import db
-from Tune.utils import AdminRightsCheck, seconds_to_min
+from Tune.utils import AdminRightsCheck, seconds_to_min, TopicAccessCheck
 from Tune.utils.inline import close_markup
 from config import BANNED_USERS
 
@@ -15,6 +15,7 @@ from config import BANNED_USERS
     & ~BANNED_USERS
 )
 @AdminRightsCheck()
+@TopicAccessCheck
 async def seek_comm(cli, message: Message, _, chat_id):
     if len(message.command) == 1:
         return await message.reply_text(_["admin_20"])

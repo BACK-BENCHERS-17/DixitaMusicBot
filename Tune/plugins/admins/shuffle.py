@@ -5,7 +5,7 @@ from pyrogram.types import Message
 
 from Tune import app
 from Tune.misc import db
-from Tune.utils.decorators import AdminRightsCheck
+from Tune.utils.decorators import AdminRightsCheck, TopicAccessCheck
 from Tune.utils.inline import close_markup
 from config import BANNED_USERS
 
@@ -14,6 +14,7 @@ from config import BANNED_USERS
     filters.command(["shuffle", "cshuffle"]) & filters.group & ~BANNED_USERS
 )
 @AdminRightsCheck()
+@TopicAccessCheck
 async def admins(Client, message: Message, _, chat_id):
     check = db.get(chat_id)
     if not check:

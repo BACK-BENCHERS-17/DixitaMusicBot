@@ -16,6 +16,7 @@ from Tune.utils import seconds_to_min, time_to_seconds
 from Tune.utils.channelplay import get_channeplayCB
 from Tune.utils.decorators.language import languageCB
 from Tune.utils.decorators.play import PlayWrapper
+from Tune.utils.decorators import TopicAccessCheck
 from Tune.utils.errors import capture_err, capture_callback_err
 from Tune.utils.formatters import formats
 from Tune.utils.inline import (
@@ -47,6 +48,7 @@ from Tune.utils.stream.stream import stream
 )
 @PlayWrapper
 @capture_err
+@TopicAccessCheck
 async def play_command(
     client,
     message: Message,

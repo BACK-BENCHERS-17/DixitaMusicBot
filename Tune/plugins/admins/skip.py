@@ -6,7 +6,7 @@ from Tune import YouTube, app
 from Tune.core.call import JARVIS
 from Tune.misc import db
 from Tune.utils.database import get_loop
-from Tune.utils.decorators import AdminRightsCheck
+from Tune.utils.decorators import AdminRightsCheck, TopicAccessCheck
 from Tune.utils.inline import close_markup, stream_markup
 from Tune.utils.stream.autoclear import auto_clean
 from Tune.utils.thumbnails import get_thumb
@@ -17,6 +17,7 @@ from config import BANNED_USERS
     filters.command(["skip", "cskip", "next", "cnext"], prefixes=["/", "!"]) & filters.group & ~BANNED_USERS
 )
 @AdminRightsCheck()
+@TopicAccessCheck
 async def skip(cli, message: Message, _, chat_id):
     if not len(message.command) < 2:
         loop = await get_loop(chat_id)
