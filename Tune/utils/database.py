@@ -21,6 +21,7 @@ playtypedb = mongodb.playtypedb
 skipdb = mongodb.skipmode
 sudoersdb = mongodb.sudoers
 usersdb = mongodb.tgusersdb
+chatTopicdb = mongodb.chatTopic
 
 
 active = []
@@ -38,6 +39,8 @@ playmode = {}
 playtype = {}
 skipmode = {}
 mute = {}
+chat_topics = {}
+
 
 async def get_assistant_number(chat_id: int) -> str:
     assistant = assistantdict.get(chat_id)
@@ -662,3 +665,113 @@ async def remove_banned_user(user_id: int):
     if not is_gbanned:
         return
     return await blockeddb.delete_one({"user_id": user_id})
+
+
+# Chat Topic Management Functions
+
+async def get_chat_topics(chat_id: int) -> list:
+    """Get all topic IDs for a specific chat"""
+    # Check in-memory cache first
+    topics = chat_topics.get(chat_id)
+    if topics is not None:
+        return topics
+    
+    # Check database
+    chat_data = await chatTopicdb.find_one({"chat_id": chat_id})
+    if not chat_data:
+        chat_topics[chat_id] = []
+        return []
+    
+    topic_ids = chat_data.get("topicIds", [])
+    chat_topics[chat_id] = topic_ids
+    return topic_ids
+
+
+async def set_chat_topic(chat_id: int, topic_id: int) -> bool:
+    """Add a topic ID to a chat's topic list"""
+    # Get current topics
+    current_topics = await get_chat_topics(chat_id)
+    
+    # Check if topic already exists
+    if topic_id in current_topics:
+        return False  # Topic already exists
+    
+    # Add new topic ID
+    updated_topics = current_topics + [topic_id]
+    
+    # Update in-memory cache
+    chat_topics[chat_id] = updated_topics
+    
+    # Update database
+    await chatTopicdb.update_one(
+        {"chat_id": chat_id},
+        {"$set": {"topicIds": updated_topics}},
+        upsert=True
+    )
+    
+    return True
+
+
+async def unset_chat_topic(chat_id: int, topic_id: int) -> bool:
+    """Remove a topic ID from a chat's topic list"""
+    # Get current topics
+    current_topics = await get_chat_topics(chat_id)
+    
+    # Check if topic exists
+    if topic_id not in current_topics:
+        return False  # Topic doesn't exist
+    
+    # Remove topic ID
+    updated_topics = [tid for tid in current_topics if tid != topic_id]
+    
+    # Update in-memory cache
+    chat_topics[chat_id] = updated_topics
+    
+    # Update database
+    if updated_topics:
+        await chatTopicdb.update_one(
+            {"chat_id": chat_id},
+            {"$set": {"topicIds": updated_topics}}
+        )
+    else:
+        # Remove document if no topics left
+        await chatTopicdb.delete_one({"chat_id": chat_id})
+        del chat_topics[chat_id]
+    
+    return True
+
+
+async def is_topic_in_chat(chat_id: int, topic_id: int) -> bool:
+    """Check if a topic ID exists in a chat"""
+    topics = await get_chat_topics(chat_id)
+    return topic_id in topics
+
+
+async def get_topic_count(chat_id: int) -> int:
+    """Get the number of topics in a chat"""
+    topics = await get_chat_topics(chat_id)
+    return len(topics)
+
+
+async def clear_chat_topics(chat_id: int) -> bool:
+    """Remove all topics from a chat"""
+    # Check if chat has topics
+    if chat_id not in chat_topics and not await chatTopicdb.find_one({"chat_id": chat_id}):
+        return False
+    
+    # Clear from memory
+    if chat_id in chat_topics:
+        del chat_topics[chat_id]
+    
+    # Clear from database
+    await chatTopicdb.delete_one({"chat_id": chat_id})
+    
+    return True
+
+
+async def get_all_chats_with_topics() -> list:
+    """Get all chat IDs that have topics configured"""
+    chats_list = []
+    async for chat in chatTopicdb.find({}):
+        chats_list.append(chat["chat_id"])
+    return chats_list
