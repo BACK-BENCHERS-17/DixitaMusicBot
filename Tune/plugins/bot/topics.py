@@ -20,9 +20,15 @@ from Tune.utils.decorators.language import LanguageStart
 @app.on_message(
     filters.command(["setmusictopic", "addmusictopic"]) & filters.group & ~BANNED_USERS
 )
-@LanguageStart
 @AdminRightsCheck(require_active_chat=False)
 async def set_music_topic_command(client, message: Message, _, chat_id):
+    # Get language manually since LanguageStart isn't compatible
+    try:
+        language = await get_lang(message.chat.id)
+        _ = get_string(language)
+    except:
+        _ = get_string("en")
+    
     # Get topic ID from the message (forum topic)
     if not message.message_thread_id:
         return await message.reply_text(_["settopic_1"])  # "This command can only be used in forum topics."
@@ -56,9 +62,15 @@ async def set_music_topic_command(client, message: Message, _, chat_id):
 @app.on_message(
     filters.command(["unsetmusictopic", "removemusictopic"]) & filters.group & ~BANNED_USERS
 )
-@LanguageStart
 @AdminRightsCheck(require_active_chat=False)
 async def unset_music_topic_command(client, message: Message, _, chat_id):
+    # Get language manually since LanguageStart isn't compatible
+    try:
+        language = await get_lang(message.chat.id)
+        _ = get_string(language)
+    except:
+        _ = get_string("en")
+    
     # Get topic ID from the message (forum topic)
     if not message.message_thread_id:
         return await message.reply_text(_["unsettopic_1"])  # "This command can only be used in forum topics."
