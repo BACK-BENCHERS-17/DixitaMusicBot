@@ -26,6 +26,7 @@ from Tune.utils.database import (
     remove_active_chat,
     remove_active_video_chat,
     set_loop,
+    get_chat_topics,
 )
 from Tune.utils.exceptions import AssistantErr
 from Tune.utils.formatters import check_duration, seconds_to_min, speed_converter
@@ -46,6 +47,82 @@ def dynamic_media_stream(path: str, video: bool = False, ffmpeg_params: str = No
         video_flags=(MediaStream.Flags.AUTO_DETECT if video else MediaStream.Flags.IGNORE),
         ffmpeg_parameters=ffmpeg_params,
     )
+
+async def send_message_to_topics(chat_id, text, reply_markup=None, disable_web_page_preview=True):
+    """
+    Send message to all topics in a chat if topics exist, otherwise send to main chat.
+    Returns the message object from the first successful send (for compatibility).
+    """
+    # Get all topics for this chat
+    topics = await get_chat_topics(chat_id)
+    
+    if not topics:
+        # No topics configured, send to main chat
+        return await app.send_message(
+            chat_id=chat_id,
+            text=text,
+            reply_markup=reply_markup,
+            disable_web_page_preview=disable_web_page_preview,
+        )
+    
+    # Send to all topics
+    messages = []
+    for topic_id in topics:
+        try:
+            message = await app.send_message(
+                chat_id=chat_id,
+                text=text,
+                reply_markup=reply_markup,
+                disable_web_page_preview=disable_web_page_preview,
+                message_thread_id=topic_id,
+            )
+            messages.append(message)
+        except Exception as e:
+            # Log error but continue with other topics
+            print(f"Failed to send message to topic {topic_id} in chat {chat_id}: {e}")
+            continue
+    
+    # Return the first message for compatibility with existing code
+    return messages[0] if messages else None
+
+
+async def send_photo_to_topics(chat_id, photo, caption, reply_markup=None):
+    """
+    Send photo to all topics in a chat if topics exist, otherwise send to main chat.
+    Returns the message object from the first successful send (for compatibility).
+    """
+    # Get all topics for this chat
+    topics = await get_chat_topics(chat_id)
+    
+    if not topics:
+        # No topics configured, send to main chat
+        return await app.send_photo(
+            chat_id=chat_id,
+            photo=photo,
+            caption=caption,
+            reply_markup=reply_markup,
+        )
+    
+    # Send to all topics
+    messages = []
+    for topic_id in topics:
+        try:
+            message = await app.send_photo(
+                chat_id=chat_id,
+                photo=photo,
+                caption=caption,
+                reply_markup=reply_markup,
+                message_thread_id=topic_id,
+            )
+            messages.append(message)
+        except Exception as e:
+            # Log error but continue with other topics
+            print(f"Failed to send photo to topic {topic_id} in chat {chat_id}: {e}")
+            continue
+    
+    # Return the first message for compatibility with existing code
+    return messages[0] if messages else None
+
 
 async def _clear_(chat_id: int) -> None:
     popped = db.pop(chat_id, None)
@@ -69,7 +146,7 @@ class Call:
         self.two = PyTgCalls(self.userbot2) if self.userbot2 else None
 
         self.userbot3 = Client(
-            "TuneXAssis3", config.API_ID, config.API_HASH, session_string=config.STRING3, max_concurrent_transmissions=10
+            "TuneXAssis3", config.API_ID, config.API_hash, session_string=config.STRING3, max_concurrent_transmissions=10
         ) if config.STRING3 else None
         self.three = PyTgCalls(self.userbot3) if self.userbot3 else None
 
@@ -304,17 +381,17 @@ class Call:
             if "live_" in queued:
                 n, link = await YouTube.video(videoid, True)
                 if n == 0:
-                    return await app.send_message(original_chat_id, text=_["call_6"])
+                    return await send_message_to_topics(original_chat_id, text=_["call_6"])
 
                 stream = dynamic_media_stream(path=link, video=video)
                 try:
                     await client.play(chat_id, stream)
                 except Exception:
-                    return await app.send_message(original_chat_id, text=_["call_6"])
+                    return await send_message_to_topics(original_chat_id, text=_["call_6"])
 
                 img = await get_thumb(videoid)
                 button = stream_markup(_, chat_id)
-                run = await app.send_photo(
+                run = await send_photo_to_topics(
                     chat_id=original_chat_id,
                     photo=img,
                     caption=_["stream_1"].format(
@@ -329,7 +406,7 @@ class Call:
                 db[chat_id][0]["markup"] = "tg"
 
             elif "vid_" in queued:
-                mystic = await app.send_message(original_chat_id, _["call_7"])
+                mystic = await send_message_to_topics(original_chat_id, _["call_7"])
                 try:
                     file_path, direct = await YouTube.download(
                         videoid,
@@ -346,12 +423,12 @@ class Call:
                 try:
                     await client.play(chat_id, stream)
                 except:
-                    return await app.send_message(original_chat_id, text=_["call_6"])
+                    return await send_message_to_topics(original_chat_id, text=_["call_6"])
 
                 img = await get_thumb(videoid)
                 button = stream_markup(_, chat_id)
                 await mystic.delete()
-                run = await app.send_photo(
+                run = await send_photo_to_topics(
                     chat_id=original_chat_id,
                     photo=img,
                     caption=_["stream_1"].format(
@@ -370,10 +447,10 @@ class Call:
                 try:
                     await client.play(chat_id, stream)
                 except:
-                    return await app.send_message(original_chat_id, text=_["call_6"])
+                    return await send_message_to_topics(original_chat_id, text=_["call_6"])
 
                 button = stream_markup(_, chat_id)
-                run = await app.send_photo(
+                run = await send_photo_to_topics(
                     chat_id=original_chat_id,
                     photo=config.STREAM_IMG_URL,
                     caption=_["stream_2"].format(user),
@@ -387,11 +464,11 @@ class Call:
                 try:
                     await client.play(chat_id, stream)
                 except:
-                    return await app.send_message(original_chat_id, text=_["call_6"])
+                    return await send_message_to_topics(original_chat_id, text=_["call_6"])
 
                 if videoid == "telegram":
                     button = stream_markup(_, chat_id)
-                    run = await app.send_photo(
+                    run = await send_photo_to_topics(
                         chat_id=original_chat_id,
                         photo=(
                             config.TELEGRAM_AUDIO_URL
@@ -408,7 +485,7 @@ class Call:
 
                 elif videoid == "soundcloud":
                     button = stream_markup(_, chat_id)
-                    run = await app.send_photo(
+                    run = await send_photo_to_topics(
                         chat_id=original_chat_id,
                         photo=config.SOUNCLOUD_IMG_URL,
                         caption=_["stream_1"].format(
@@ -423,7 +500,7 @@ class Call:
                     img = await get_thumb(videoid)
                     button = stream_markup(_, chat_id)
                     try:
-                        run = await app.send_photo(
+                        run = await send_photo_to_topics(
                             chat_id=original_chat_id,
                             photo=img,
                             caption=_["stream_1"].format(
@@ -437,7 +514,7 @@ class Call:
                     except FloodWait as e:
                         LOGGER(__name__).warning(f"FloodWait: Sleeping for {e.value}")
                         await asyncio.sleep(e.value)
-                        run = await app.send_photo(
+                        run = await send_photo_to_topics(
                             chat_id=original_chat_id,
                             photo=img,
                             caption=_["stream_1"].format(
