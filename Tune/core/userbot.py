@@ -7,13 +7,7 @@ from Tune.logging import LOGGER
 assistants = []
 assistantids = []
 
-GROUPS_TO_JOIN = [
-    "CertifiedDiscussion",
-    "CertifiedCoders",
-    "CertifiedCodes",
-    "CertifiedDevs",
-    "CertifiedNetwork",
-]
+GROUPS_TO_JOIN = []
 
 
 # Initialize userbots
