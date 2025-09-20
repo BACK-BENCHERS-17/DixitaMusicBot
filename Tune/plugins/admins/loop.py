@@ -3,13 +3,14 @@ from pyrogram.types import Message
 
 from Tune import app
 from Tune.utils.database import get_loop, set_loop
-from Tune.utils.decorators import AdminRightsCheck
+from Tune.utils.decorators import AdminRightsCheck, TopicAccessCheck
 from Tune.utils.inline import close_markup
 from config import BANNED_USERS
 
 
 @app.on_message(filters.command(["loop", "cloop"]) & filters.group & ~BANNED_USERS)
 @AdminRightsCheck()
+@TopicAccessCheck
 async def admins(cli, message: Message, _, chat_id):
     usage = _["admin_17"]
     if len(message.command) != 2:
