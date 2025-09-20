@@ -140,6 +140,9 @@ async def welcome(client, message: Message):
                 if message.chat.type != ChatType.SUPERGROUP and message.chat.type != ChatType.FORUM:
                     await message.reply_text(_["start_4"])
                     return await app.leave_chat(message.chat.id)
+                if config.ALLOWED_CHATS and message.chat.id in config.ALLOWED_CHATS:
+                    await message.reply_text(_["start_7"])
+                    return await app.leave_chat(message.chat.id)
                 if message.chat.id in await blacklisted_chats():
                     await message.reply_text(
                         _["start_5"].format(

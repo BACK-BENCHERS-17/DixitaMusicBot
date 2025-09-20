@@ -97,6 +97,7 @@ start_3: "Hey {0},\nThis is {1}\n\nThanks for adding me in {2}, {3} can now play
 start_4: "<b>Supergroup needed</b>\n\nPlease convert your <b>group</b> to <b>supergroup</b> and then add me again.\n\n<b>How to make supergroup?</b>\n- Make your group's chat history <b>visible</b> once."
 start_5: "<b>Blacklisted chat</b>\n\nThis chat is blacklisted on {0} database.\nRequest an admin to unblacklist your chat."
 start_6: "<b>Track information</b>\n\n<b>Title:</b> {0}\n\n<b>Duration:</b> {1} minutes\n<b>Views:</b> <code>{2}</code>\n<b>Published on:</b> {3}\n<b>Channel:</b> <a href={4}>{5}</a>\n\n<u><b>Search powered by {6}</b></u>"
+start_7: "<b>Not allowed in this chat </b>\n\nThis bot is only allowed in specific chats."
 
 help_1: "Choose the category for which you want to get help.\n\nAll commands can be used with: <code>/</code>"
 help_2: "Click on the button below to get my help menu in your PM."

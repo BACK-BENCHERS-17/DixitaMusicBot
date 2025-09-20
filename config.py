@@ -66,7 +66,11 @@ STRING3 = getenv("STRING_SESSION3")
 STRING4 = getenv("STRING_SESSION4")
 STRING5 = getenv("STRING_SESSION5")
 
-
+ALLOWED_CHATS = [
+    int(c.strip())
+    for c in getenv("ALLOWED_CHATS", "").split(",")
+    if c.strip()
+]
 
 # ───── Bot Media Assets ───── #
 START_VIDS = [
