@@ -137,11 +137,10 @@ async def welcome(client, message: Message):
                 except:
                     pass
             if member.id == app.id:
-                print(config.ALLOWED_CHATS, message.chat.id, type(message.chat.id))
                 if message.chat.type != ChatType.SUPERGROUP and message.chat.type != ChatType.FORUM:
                     await message.reply_text(_["start_4"])
                     return await app.leave_chat(message.chat.id)
-                if config.ALLOWED_CHATS and message.chat.id in config.ALLOWED_CHATS:
+                if len(config.ALLOWED_CHATS) > 0 and message.chat.id not in config.ALLOWED_CHATS:
                     await message.reply_text(_["start_7"])
                     return await app.leave_chat(message.chat.id)
                 if message.chat.id in await blacklisted_chats():
