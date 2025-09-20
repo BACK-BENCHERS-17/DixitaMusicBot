@@ -137,6 +137,7 @@ async def welcome(client, message: Message):
                 except:
                     pass
             if member.id == app.id:
+                print(config.ALLOWED_CHATS, message.chat.id, type(message.chat.id))
                 if message.chat.type != ChatType.SUPERGROUP and message.chat.type != ChatType.FORUM:
                     await message.reply_text(_["start_4"])
                     return await app.leave_chat(message.chat.id)
