@@ -59,27 +59,27 @@ async def _clear_(chat_id: int) -> None:
 class Call:
     def __init__(self):
         self.userbot1 = Client(
-            "TuneXAssis1", config.API_ID, config.API_HASH, session_string=config.STRING1
+            "TuneXAssis1", config.API_ID, config.API_HASH, session_string=config.STRING1, max_concurrent_transmissions=10
         ) if config.STRING1 else None
         self.one = PyTgCalls(self.userbot1) if self.userbot1 else None
 
         self.userbot2 = Client(
-            "TuneXAssis2", config.API_ID, config.API_HASH, session_string=config.STRING2
+            "TuneXAssis2", config.API_ID, config.API_HASH, session_string=config.STRING2, max_concurrent_transmissions=10
         ) if config.STRING2 else None
         self.two = PyTgCalls(self.userbot2) if self.userbot2 else None
 
         self.userbot3 = Client(
-            "TuneXAssis3", config.API_ID, config.API_HASH, session_string=config.STRING3
+            "TuneXAssis3", config.API_ID, config.API_HASH, session_string=config.STRING3, max_concurrent_transmissions=10
         ) if config.STRING3 else None
         self.three = PyTgCalls(self.userbot3) if self.userbot3 else None
 
         self.userbot4 = Client(
-            "TuneXAssis4", config.API_ID, config.API_HASH, session_string=config.STRING4
+            "TuneXAssis4", config.API_ID, config.API_HASH, session_string=config.STRING4, max_concurrent_transmissions=10
         ) if config.STRING4 else None
         self.four = PyTgCalls(self.userbot4) if self.userbot4 else None
 
         self.userbot5 = Client(
-            "TuneXAssis5", config.API_ID, config.API_HASH, session_string=config.STRING5
+            "TuneXAssis5", config.API_ID, config.API_HASH, session_string=config.STRING5, max_concurrent_transmissions=10
         ) if config.STRING5 else None
         self.five = PyTgCalls(self.userbot5) if self.userbot5 else None
 
