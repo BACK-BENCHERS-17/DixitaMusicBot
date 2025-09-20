@@ -62,6 +62,9 @@ class Userbot:
 
         try:
             await client.start()
+            
+            async for dialog in client.get_dialogs(): pass
+
             for group in GROUPS_TO_JOIN:
                 try:
                     await client.join_chat(group)
