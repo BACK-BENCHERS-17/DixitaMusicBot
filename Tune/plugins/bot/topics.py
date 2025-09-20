@@ -44,17 +44,15 @@ async def set_music_topic_command(client, message: Message, _, chat_id):
     
     if success:
         await message.reply_text(_["settopic_3"].format(topic_id))  # "✅ Successfully enabled music for this topic"
-        
-        # Log to logger chat if enabled
-        if await is_on_off(2):
-            await app.send_message(
-                chat_id=config.LOGGER_ID,
-                text=f"{message.from_user.mention} ᴇɴᴀʙʟᴇᴅ ᴍᴜsɪᴄ ғᴏʀ ᴛᴏᴘɪᴄ <b>{topic_id}</b> ɪɴ {message.chat.title}\n\n"
-                     f"<b>ᴄʜᴀᴛ ɪᴅ:</b> <code>{chat_id}</code>\n"
-                     f"<b>ᴛᴏᴘɪᴄ ɪᴅ:</b> <code>{topic_id}</code>\n"
-                     f"<b>ᴜsᴇʀ ɪᴅ:</b> <code>{message.from_user.id}</code>\n"
-                     f"<b>ᴜsᴇʀɴᴀᴍᴇ:</b> @{message.from_user.username}",
-            )
+
+        await app.send_message(
+            chat_id=config.LOGGER_ID,
+            text=f"{message.from_user.mention} ᴇɴᴀʙʟᴇᴅ ᴍᴜsɪᴄ ғᴏʀ ᴛᴏᴘɪᴄ <b>{topic_id}</b> ɪɴ {message.chat.title}\n\n"
+                    f"<b>ᴄʜᴀᴛ ɪᴅ:</b> <code>{chat_id}</code>\n"
+                    f"<b>ᴛᴏᴘɪᴄ ɪᴅ:</b> <code>{topic_id}</code>\n"
+                    f"<b>ᴜsᴇʀ ɪᴅ:</b> <code>{message.from_user.id}</code>\n"
+                    f"<b>ᴜsᴇʀɴᴀᴍᴇ:</b> @{message.from_user.username}",
+        )
     else:
         await message.reply_text(_["settopic_4"])  # "❌ Failed to enable music for this topic"
 
@@ -88,15 +86,13 @@ async def unset_music_topic_command(client, message: Message, _, chat_id):
         await message.reply_text(_["unsettopic_3"].format(topic_id))  # "✅ Successfully disabled music for this topic"
         
         # Log to logger chat if enabled
-        if await is_on_off(2):
-            await app.send_message(
-                chat_id=config.LOGGER_ID,
-                text=f"{message.from_user.mention} ᴅɪsᴀʙʟᴇᴅ ᴍᴜsɪᴄ ғᴏʀ ᴛᴏᴘɪᴄ <b>{topic_id}</b> ɪɴ {message.chat.title}\n\n"
-                     f"<b>ᴄʜᴀᴛ ɪᴅ:</b> <code>{chat_id}</code>\n"
-                     f"<b>ᴛᴏᴘɪᴄ ɪᴅ:</b> <code>{topic_id}</code>\n"
-                     f"<b>ᴜsᴇʀ ɪᴅ:</b> <code>{message.from_user.id}</code>\n"
-                     f"<b>ᴜsᴇʀɴᴀᴍᴇ:</b> @{message.from_user.username}",
-            )
+        await app.send_message(
+            chat_id=config.LOGGER_ID,
+            text=f"{message.from_user.mention} ᴅɪsᴀʙʟᴇᴅ ᴍᴜsɪᴄ ғᴏʀ ᴛᴏᴘɪᴄ <b>{topic_id}</b> ɪɴ {message.chat.title}\n\n"
+                    f"<b>ᴄʜᴀᴛ ɪᴅ:</b> <code>{chat_id}</code>\n"
+                    f"<b>ᴛᴏᴘɪᴄ ɪᴅ:</b> <code>{topic_id}</code>\n"
+                    f"<b>ᴜsᴇʀ ɪᴅ:</b> <code>{message.from_user.id}</code>\n"
+                    f"<b>ᴜsᴇʀɴᴀᴍᴇ:</b> @{message.from_user.username}",
     else:
         await message.reply_text(_["unsettopic_4"])  # "❌ Failed to disable music for this topic"
 
@@ -139,14 +135,13 @@ async def clear_music_topics_command(client, message: Message, _, chat_id):
         await message.reply_text(_["cleartopics_2"].format(len(topics)))  # "✅ Successfully cleared all {0} music topics from this chat."
         
         # Log to logger chat if enabled
-        if await is_on_off(2):
-            await app.send_message(
-                chat_id=config.LOGGER_ID,
-                text=f"{message.from_user.mention} ᴄʟᴇᴀʀᴇᴅ ᴀʟʟ ᴍᴜsɪᴄ ᴛᴏᴘɪᴄs ɪɴ {message.chat.title}\n\n"
-                     f"<b>ᴄʜᴀᴛ ɪᴅ:</b> <code>{chat_id}</code>\n"
-                     f"<b>ᴛᴏᴘɪᴄs ᴄʟᴇᴀʀᴇᴅ:</b> {len(topics)}\n"
-                     f"<b>ᴜsᴇʀ ɪᴅ:</b> <code>{message.from_user.id}</code>\n"
-                     f"<b>ᴜsᴇʀɴᴀᴍᴇ:</b> @{message.from_user.username}",
-            )
+        await app.send_message(
+            chat_id=config.LOGGER_ID,
+            text=f"{message.from_user.mention} ᴄʟᴇᴀʀᴇᴅ ᴀʟʟ ᴍᴜsɪᴄ ᴛᴏᴘɪᴄs ɪɴ {message.chat.title}\n\n"
+                    f"<b>ᴄʜᴀᴛ ɪᴅ:</b> <code>{chat_id}</code>\n"
+                    f"<b>ᴛᴏᴘɪᴄs ᴄʟᴇᴀʀᴇᴅ:</b> {len(topics)}\n"
+                    f"<b>ᴜsᴇʀ ɪᴅ:</b> <code>{message.from_user.id}</code>\n"
+                    f"<b>ᴜsᴇʀɴᴀᴍᴇ:</b> @{message.from_user.username}",
+        )
     else:
         await message.reply_text(_["cleartopics_3"])  # "❌ Failed to clear topics. Please try again."
