@@ -8,13 +8,51 @@ import config
 from Tune import Carbon, YouTube, app
 from Tune.core.call import JARVIS
 from Tune.misc import db
-from Tune.utils.database import add_active_video_chat, is_active_chat
+from Tune.utils.database import add_active_video_chat, is_active_chat, get_chat_topics
 from Tune.utils.exceptions import AssistantErr
 from Tune.utils.inline import aq_markup, close_markup, stream_markup
 from Tune.utils.pastebin import TuneBin
 from Tune.utils.stream.queue import put_queue, put_queue_index
 from Tune.utils.thumbnails import get_thumb
 from Tune.utils.errors import capture_internal_err
+
+
+async def send_photo_to_topics(chat_id, photo, caption, reply_markup=None):
+    """
+    Send photo to all topics in a chat if topics exist, otherwise send to main chat.
+    Returns the message object from the first successful send (for compatibility).
+    """
+    # Get all topics for this chat
+    topics = await get_chat_topics(chat_id)
+    
+    if not topics:
+        # No topics configured, send to main chat
+        return await app.send_photo(
+            chat_id=chat_id,
+            photo=photo,
+            caption=caption,
+            reply_markup=reply_markup,
+        )
+    
+    # Send to all topics
+    messages = []
+    for topic_id in topics:
+        try:
+            message = await app.send_photo(
+                chat_id=chat_id,
+                photo=photo,
+                caption=caption,
+                reply_markup=reply_markup,
+                message_thread_id=topic_id,  # This is the key parameter for topics
+            )
+            messages.append(message)
+        except Exception as e:
+            # Log error but continue with other topics
+            print(f"Failed to send to topic {topic_id} in chat {chat_id}: {e}")
+            continue
+    
+    # Return the first message for compatibility with existing code
+    return messages[0] if messages else None
 
 
 @capture_internal_err
@@ -109,7 +147,7 @@ async def stream(
                 )
                 img = await get_thumb(vidid)
                 button = stream_markup(_, chat_id)
-                run = await app.send_photo(
+                run = await send_photo_to_topics(
                     original_chat_id,
                     photo=img,
                     caption=_["stream_1"].format(
@@ -137,7 +175,7 @@ async def stream(
         final_position = len(db.get(chat_id) or []) - 1
         if final_position < 0:
             final_position = 0
-        return await app.send_photo(
+        return await send_photo_to_topics(
             original_chat_id,
             photo=playlist_photo,
             caption=_["play_21"].format(final_position, link),
@@ -203,7 +241,7 @@ async def stream(
             )
             img = await get_thumb(vidid)
             button = stream_markup(_, chat_id)
-            run = await app.send_photo(
+            run = await send_photo_to_topics(
                 original_chat_id,
                 photo=img,
                 caption=_["stream_1"].format(
@@ -260,7 +298,7 @@ async def stream(
                 forceplay=forceplay,
             )
             button = stream_markup(_, chat_id)
-            run = await app.send_photo(
+            run = await send_photo_to_topics(
                 original_chat_id,
                 photo=config.SOUNCLOUD_IMG_URL,
                 caption=_["stream_1"].format(
@@ -317,7 +355,7 @@ async def stream(
             if is_video:
                 await add_active_video_chat(chat_id)
             button = stream_markup(_, chat_id)
-            run = await app.send_photo(
+            run = await send_photo_to_topics(
                 original_chat_id,
                 photo=config.TELEGRAM_VIDEO_URL if is_video else config.TELEGRAM_AUDIO_URL,
                 caption=_["stream_1"].format(link, title[:23], duration_min, user_name),
@@ -382,7 +420,7 @@ async def stream(
             )
             img = await get_thumb(vidid)
             button = stream_markup(_, chat_id)
-            run = await app.send_photo(
+            run = await send_photo_to_topics(
                 original_chat_id,
                 photo=img,
                 caption=_["stream_1"].format(
@@ -439,7 +477,7 @@ async def stream(
                 forceplay=forceplay,
             )
             button = stream_markup(_, chat_id)
-            run = await app.send_photo(
+            run = await send_photo_to_topics(
                 original_chat_id,
                 photo=config.STREAM_IMG_URL,
                 caption=_["stream_2"].format(user_name),
