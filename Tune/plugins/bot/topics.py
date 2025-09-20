@@ -44,7 +44,7 @@ async def set_music_topic_command(client, message: Message, _, chat_id):
     
     if success:
         await message.reply_text(_["settopic_3"].format(topic_id))  # "✅ Successfully enabled music for this topic"
-
+        
         await app.send_message(
             chat_id=config.LOGGER_ID,
             text=f"{message.from_user.mention} ᴇɴᴀʙʟᴇᴅ ᴍᴜsɪᴄ ғᴏʀ ᴛᴏᴘɪᴄ <b>{topic_id}</b> ɪɴ {message.chat.title}\n\n"
@@ -93,6 +93,7 @@ async def unset_music_topic_command(client, message: Message, _, chat_id):
                     f"<b>ᴛᴏᴘɪᴄ ɪᴅ:</b> <code>{topic_id}</code>\n"
                     f"<b>ᴜsᴇʀ ɪᴅ:</b> <code>{message.from_user.id}</code>\n"
                     f"<b>ᴜsᴇʀɴᴀᴍᴇ:</b> @{message.from_user.username}",
+        )
     else:
         await message.reply_text(_["unsettopic_4"])  # "❌ Failed to disable music for this topic"
 
