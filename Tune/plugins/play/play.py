@@ -3,6 +3,7 @@ import random
 import string
 
 from pyrogram import filters
+from pyrogram.enums import ChatType
 from pyrogram.errors import FloodWait, RandomIdDuplicate
 from pyrogram.types import InlineKeyboardMarkup, InputMediaPhoto, Message
 from pytgcalls.exceptions import NoActiveGroupCall
@@ -57,6 +58,9 @@ async def play_command(
     url,
     fplay,
 ):
+    if len(config.ALLOWED_CHATS) > 0 and message.chat.id not in config.ALLOWED_CHATS:
+        await message.reply_text(_["start_7"])
+        return await app.leave_chat(message.chat.id)
     try:
         mystic = await message.reply_text(
             _["play_2"].format(channel) if channel else random.choice(AYU)
