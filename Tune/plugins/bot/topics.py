@@ -21,7 +21,7 @@ from Tune.utils.decorators.language import LanguageStart
 @app.on_message(
     filters.command(["setmusictopic", "addmusictopic"]) & filters.group & ~BANNED_USERS
 )
-@AdminRightsCheck
+@AdminRightsCheck(require_active_chat=False)
 @LanguageStart
 async def set_music_topic_command(client, message: Message, _, chat_id):
     # Get topic ID from the message (forum topic)
@@ -57,7 +57,7 @@ async def set_music_topic_command(client, message: Message, _, chat_id):
 @app.on_message(
     filters.command(["unsetmusictopic", "removemusictopic"]) & filters.group & ~BANNED_USERS
 )
-@AdminRightsCheck
+@AdminRightsCheck(require_active_chat=False)
 @LanguageStart
 async def unset_music_topic_command(client, message: Message, _, chat_id):
     # Get topic ID from the message (forum topic)
@@ -112,7 +112,7 @@ async def list_music_topics_command(client, message: Message, _):
 @app.on_message(
     filters.command(["clearmusictopics"]) & filters.group & ~BANNED_USERS
 )
-@AdminRightsCheck
+@AdminRightsCheck(require_active_chat=False)
 @LanguageStart
 async def clear_music_topics_command(client, message: Message, _, chat_id):
     topics = await get_chat_topics(chat_id)

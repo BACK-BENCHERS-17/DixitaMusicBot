@@ -10,7 +10,7 @@ from config import BANNED_USERS
 
 
 @app.on_message(filters.command(["resume", "cresume"]) & filters.group & ~BANNED_USERS)
-@AdminRightsCheck
+@AdminRightsCheck()
 async def resume_com(cli, message: Message, _, chat_id):
     if await is_music_playing(chat_id):
         return await message.reply_text(_["admin_3"])
