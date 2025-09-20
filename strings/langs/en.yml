@@ -314,7 +314,6 @@ gban_10: "No one is globally banned from the bot."
 gban_11: "Fetching gbanned users list..."
 gban_12: "<b>Globally banned users:</b>\n\n"
 
-# Song
 SG_B_1: "Click here"
 SG_B_2: "Audio"
 SG_B_3: "Video"
@@ -331,28 +330,24 @@ song_9: "Failed to download song from yt-dl\n\n**Reason:** {0}"
 song_10: "Failed to upload on Telegram servers."
 song_11: "Uploading started\n\nPlease hold on..."
 
-"settopic_1": "❌ This command can only be used in forum topics.",
-"settopic_2": "Topic ID {0} is already enabled for music in this topic.",
-"settopic_3": "✅ Successfully enabled music for this topic (ID: {0}).",
-"settopic_4": "❌ Failed to enable music for this topic. Please try again.",
+"settopic_1": "❌ This command can only be used in forum topics."
+"settopic_2": "Topic ID {0} is already enabled for music in this topic."
+"settopic_3": "✅ Successfully enabled music for this topic (ID: {0})."
+"settopic_4": "❌ Failed to enable music for this topic. Please try again."
 
-# For unsetmusictopic command
-"unsettopic_1": "❌ This command can only be used in forum topics.",
-"unsettopic_2": "Topic ID {0} is not enabled for music.",
-"unsettopic_3": "✅ Successfully disabled music for this topic (ID: {0}).",
-"unsettopic_4": "❌ Failed to disable music for this topic. Please try again.",
+"unsettopic_1": "❌ This command can only be used in forum topics."
+"unsettopic_2": "Topic ID {0} is not enabled for music."
+"unsettopic_3": "✅ Successfully disabled music for this topic (ID: {0})."
+"unsettopic_4": "❌ Failed to disable music for this topic. Please try again."
 
-# For musictopics/listmusictopics command
-"listtopics_1": "📋 No music topics are enabled for this chat.",
-"listtopics_2": "📋 **Music-enabled topics for this chat:**\n\nTotal: {0}\n\n{1}",
+"listtopics_1": "📋 No music topics are enabled for this chat."
+"listtopics_2": "📋 **Music-enabled topics for this chat:**\n\nTotal: {0}\n\n{1}"
 
-# For clearmusictopics command
-"cleartopics_1": "📋 No music topics are enabled for this chat.",
-"cleartopics_2": "✅ Successfully disabled music for all {0} topics in this chat.",
-"cleartopics_3": "❌ Failed to clear music topics. Please try again.",
+"cleartopics_1": "📋 No music topics are enabled for this chat."
+"cleartopics_2": "✅ Successfully disabled music for all {0} topics in this chat."
+"cleartopics_3": "❌ Failed to clear music topics. Please try again."
 
-# Alternative/additional strings you might want:
-"topic_status_enabled": "🎵 Music is **enabled** for this topic.",
-"topic_status_disabled": "🔇 Music is **disabled** for this topic.",
-"admin_only": "❌ Only administrators can use this command.",
-"forum_only": "❌ This feature is only available in forum groups.",
+"topic_status_enabled": "🎵 Music is **enabled** for this topic."
+"topic_status_disabled": "🔇 Music is **disabled** for this topic."
+"admin_only": "❌ Only administrators can use this command."
+"forum_only": "❌ This feature is only available in forum groups."
