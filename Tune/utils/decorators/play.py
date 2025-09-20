@@ -122,8 +122,7 @@ def PlayWrapper(command):
             userbot = await get_assistant(chat_id)
             try:
                 try:
-                    await app.get_users(userbot.id)
-                    await app.get_chat(chat_id)
+                    async for dialog in self.get_dialogs(): pass
 
                     member = await app.get_chat_member(chat_id, userbot.id)
                 except ChatAdminRequired:
