@@ -12,7 +12,6 @@ from Tune.utils.database import (
     unset_chat_topic,
     is_topic_in_chat,
     get_lang,
-    clear_chat_topics
 )
 from Tune.utils.decorators.admins import AdminRightsCheck
 from Tune.utils.decorators.language import LanguageStart
@@ -21,8 +20,8 @@ from Tune.utils.decorators.language import LanguageStart
 @app.on_message(
     filters.command(["setmusictopic", "addmusictopic"]) & filters.group & ~BANNED_USERS
 )
-@AdminRightsCheck(require_active_chat=False)
 @LanguageStart
+@AdminRightsCheck(require_active_chat=False)
 async def set_music_topic_command(client, message: Message, _, chat_id):
     # Get topic ID from the message (forum topic)
     if not message.message_thread_id:
@@ -57,8 +56,8 @@ async def set_music_topic_command(client, message: Message, _, chat_id):
 @app.on_message(
     filters.command(["unsetmusictopic", "removemusictopic"]) & filters.group & ~BANNED_USERS
 )
-@AdminRightsCheck(require_active_chat=False)
 @LanguageStart
+@AdminRightsCheck(require_active_chat=False)
 async def unset_music_topic_command(client, message: Message, _, chat_id):
     # Get topic ID from the message (forum topic)
     if not message.message_thread_id:
@@ -112,8 +111,8 @@ async def list_music_topics_command(client, message: Message, _):
 @app.on_message(
     filters.command(["clearmusictopics"]) & filters.group & ~BANNED_USERS
 )
-@AdminRightsCheck(require_active_chat=False)
 @LanguageStart
+@AdminRightsCheck(require_active_chat=False)
 async def clear_music_topics_command(client, message: Message, _, chat_id):
     topics = await get_chat_topics(chat_id)
     
@@ -121,6 +120,7 @@ async def clear_music_topics_command(client, message: Message, _, chat_id):
         return await message.reply_text(_["cleartopics_1"])  # "📋 No music topics are set for this chat."
     
     # Clear all topics
+    from Tune.utils.database import clear_chat_topics
     success = await clear_chat_topics(chat_id)
     
     if success:
