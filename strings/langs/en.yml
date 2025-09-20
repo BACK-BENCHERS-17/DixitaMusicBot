@@ -351,3 +351,6 @@ song_11: "Uploading started\n\nPlease hold on..."
 "topic_status_disabled": "🔇 Music is **disabled** for this topic."
 "admin_only": "❌ Only administrators can use this command."
 "forum_only": "❌ This feature is only available in forum groups."
+
+"topic_access_1": "Music commands can only be used in forum topics where it's enabled."
+"topic_access_2": "Music is not enabled for this topic (ID: {0}). Ask an admin to enable it."

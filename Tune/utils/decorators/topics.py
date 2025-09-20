@@ -23,24 +23,21 @@ def TopicAccessCheck(mystic):
         # Get all allowed topics for this chat
         allowed_topics = await get_chat_topics(chat_id)
         
-        # If no topics are assigned, deny access
         if not allowed_topics:
-            return await message.reply_text(
-                _["topic_access_1"]  # "Music is not enabled for any topics in this chat. Ask an admin to enable it first."
-            )
+            return await mystic(client, message, *args, **kwargs)
         
         # Check if message is from a forum topic
         current_topic = message.message_thread_id
         if not current_topic:
             # Message is not from a topic (general chat)
             return await message.reply_text(
-                _["topic_access_2"]  # "Music commands can only be used in forum topics where it's enabled."
+                _["topic_access_1"] 
             )
         
         # Check if current topic is in allowed list
         if current_topic not in allowed_topics:
             return await message.reply_text(
-                _["topic_access_3"].format(current_topic)  # "Music is not enabled for this topic (ID: {0}). Ask an admin to enable it."
+                _["topic_access_2"].format(current_topic)  # 
             )
         
         # Topic is allowed, proceed with the command
