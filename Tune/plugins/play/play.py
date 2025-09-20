@@ -62,7 +62,7 @@ async def play_command(
         await message.reply_text(_["start_7"])
         return await app.leave_chat(message.chat.id)
     try:            
-        async for dialog in client.get_dialogs(): pass
+        #async for dialog in client.get_dialogs(): pass
         mystic = await message.reply_text(
             _["play_2"].format(channel) if channel else random.choice(AYU)
         )
