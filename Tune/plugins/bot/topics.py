@@ -20,15 +20,9 @@ from Tune.utils.decorators.language import LanguageStart
 @app.on_message(
     filters.command(["setmusictopic", "addmusictopic"]) & filters.group & ~BANNED_USERS
 )
+@LanguageStart
 @AdminRightsCheck(require_active_chat=False)
 async def set_music_topic_command(client, message: Message, _, chat_id):
-    # Get language manually since LanguageStart isn't compatible
-    try:
-        language = await get_lang(message.chat.id)
-        _ = get_string(language)
-    except:
-        _ = get_string("en")
-    
     # Get topic ID from the message (forum topic)
     if not message.message_thread_id:
         return await message.reply_text(_["settopic_1"])  # "This command can only be used in forum topics."
@@ -44,15 +38,6 @@ async def set_music_topic_command(client, message: Message, _, chat_id):
     
     if success:
         await message.reply_text(_["settopic_3"].format(topic_id))  # "✅ Successfully enabled music for this topic"
-        
-        await app.send_message(
-            chat_id=config.LOGGER_ID,
-            text=f"{message.from_user.mention} ᴇɴᴀʙʟᴇᴅ ᴍᴜsɪᴄ ғᴏʀ ᴛᴏᴘɪᴄ <b>{topic_id}</b> ɪɴ {message.chat.title}\n\n"
-                    f"<b>ᴄʜᴀᴛ ɪᴅ:</b> <code>{chat_id}</code>\n"
-                    f"<b>ᴛᴏᴘɪᴄ ɪᴅ:</b> <code>{topic_id}</code>\n"
-                    f"<b>ᴜsᴇʀ ɪᴅ:</b> <code>{message.from_user.id}</code>\n"
-                    f"<b>ᴜsᴇʀɴᴀᴍᴇ:</b> @{message.from_user.username}",
-        )
     else:
         await message.reply_text(_["settopic_4"])  # "❌ Failed to enable music for this topic"
 
@@ -60,15 +45,9 @@ async def set_music_topic_command(client, message: Message, _, chat_id):
 @app.on_message(
     filters.command(["unsetmusictopic", "removemusictopic"]) & filters.group & ~BANNED_USERS
 )
+@LanguageStart
 @AdminRightsCheck(require_active_chat=False)
 async def unset_music_topic_command(client, message: Message, _, chat_id):
-    # Get language manually since LanguageStart isn't compatible
-    try:
-        language = await get_lang(message.chat.id)
-        _ = get_string(language)
-    except:
-        _ = get_string("en")
-    
     # Get topic ID from the message (forum topic)
     if not message.message_thread_id:
         return await message.reply_text(_["unsettopic_1"])  # "This command can only be used in forum topics."
@@ -84,16 +63,6 @@ async def unset_music_topic_command(client, message: Message, _, chat_id):
     
     if success:
         await message.reply_text(_["unsettopic_3"].format(topic_id))  # "✅ Successfully disabled music for this topic"
-        
-        # Log to logger chat if enabled
-        await app.send_message(
-            chat_id=config.LOGGER_ID,
-            text=f"{message.from_user.mention} ᴅɪsᴀʙʟᴇᴅ ᴍᴜsɪᴄ ғᴏʀ ᴛᴏᴘɪᴄ <b>{topic_id}</b> ɪɴ {message.chat.title}\n\n"
-                    f"<b>ᴄʜᴀᴛ ɪᴅ:</b> <code>{chat_id}</code>\n"
-                    f"<b>ᴛᴏᴘɪᴄ ɪᴅ:</b> <code>{topic_id}</code>\n"
-                    f"<b>ᴜsᴇʀ ɪᴅ:</b> <code>{message.from_user.id}</code>\n"
-                    f"<b>ᴜsᴇʀɴᴀᴍᴇ:</b> @{message.from_user.username}",
-        )
     else:
         await message.reply_text(_["unsettopic_4"])  # "❌ Failed to disable music for this topic"
 
@@ -134,15 +103,5 @@ async def clear_music_topics_command(client, message: Message, _, chat_id):
     
     if success:
         await message.reply_text(_["cleartopics_2"].format(len(topics)))  # "✅ Successfully cleared all {0} music topics from this chat."
-        
-        # Log to logger chat if enabled
-        await app.send_message(
-            chat_id=config.LOGGER_ID,
-            text=f"{message.from_user.mention} ᴄʟᴇᴀʀᴇᴅ ᴀʟʟ ᴍᴜsɪᴄ ᴛᴏᴘɪᴄs ɪɴ {message.chat.title}\n\n"
-                    f"<b>ᴄʜᴀᴛ ɪᴅ:</b> <code>{chat_id}</code>\n"
-                    f"<b>ᴛᴏᴘɪᴄs ᴄʟᴇᴀʀᴇᴅ:</b> {len(topics)}\n"
-                    f"<b>ᴜsᴇʀ ɪᴅ:</b> <code>{message.from_user.id}</code>\n"
-                    f"<b>ᴜsᴇʀɴᴀᴍᴇ:</b> @{message.from_user.username}",
-        )
     else:
         await message.reply_text(_["cleartopics_3"])  # "❌ Failed to clear topics. Please try again."
