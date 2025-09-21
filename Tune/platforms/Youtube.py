@@ -43,9 +43,49 @@ def _cookies_args() -> List[str]:
     return ["--cookies", p] if p else []
 
 
+def _get_optimized_yt_dlp_opts(cookiefile_path: Optional[str] = None, download_type: str = "info") -> Dict:
+    """Get optimized yt-dlp options for faster downloads and better quality"""
+    opts = {
+        'quiet': True,
+        'no_warnings': True,
+        'outtmpl': '%(title)s.%(ext)s',
+        'retries': 3,
+        'fragment_retries': 5,
+        'skip_unavailable_fragments': True,
+        'keep_fragments': False,
+        'concurrent_fragment_downloads': 4,  # Download fragments concurrently
+        'http_chunk_size': 1048576,  # 1MB chunks for better speed
+        'buffer_size': 16384,  # 16KB buffer
+    }
+    
+    # Only set audio extraction options when actually downloading audio
+    if download_type == "audio":
+        opts['extractaudio'] = True
+        opts['audioformat'] = 'best'
+    elif download_type == "info":
+        # For info extraction only, don't set audio extraction options
+        pass
+    
+    if cookiefile_path:
+        opts['cookiefile'] = cookiefile_path
+    
+    return opts
+
+
 async def _exec_proc(*args: str) -> Tuple[bytes, bytes]:
+    # Add concurrent connection args for faster downloads
+    enhanced_args = list(args)
+    if 'yt-dlp' in enhanced_args:
+        # Add performance optimization flags
+        perf_flags = [
+            '--concurrent-fragments', '4',
+            '--retries', '3',
+            '--fragment-retries', '5',
+        ]
+        enhanced_args.extend(perf_flags)
+    
     proc = await asyncio.create_subprocess_exec(
-        *args, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
+        *enhanced_args, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
     )
     try:
         return await asyncio.wait_for(proc.communicate(), timeout=YTDLP_TIMEOUT)
@@ -83,6 +123,13 @@ class YouTubeAPI:
         self.base_url = "https://www.youtube.com/watch?v="
         self.playlist_url = "https://youtube.com/playlist?list="
         self._url_pattern = re.compile(r"(?:youtube\.com|youtu\.be)")
+        
+        # Optimized format selectors for different quality levels
+        self.video_formats = {
+            '1080p': 'best[height<=1080][width<=1920]/best[height<=1080]/bestvideo[height<=1080]+bestaudio/best',
+            '720p': 'best[height<=720][width<=1280]/best[height<=720]/bestvideo[height<=720]+bestaudio/best',
+            'best': 'bestvideo[height<=1080]+bestaudio/best[height<=1080]/best'
+        }
 
     def _prepare_link(
         self, link: str, videoid: Union[str, bool, None] = None
@@ -183,15 +230,17 @@ class YouTubeAPI:
 
     @capture_internal_err
     async def video(
-        self, link: str, videoid: Union[str, bool, None] = None
+        self, link: str, videoid: Union[str, bool, None] = None, quality: str = "1080p"
     ) -> Tuple[int, str]:
         link = self._prepare_link(link, videoid)
+        format_selector = self.video_formats.get(quality, self.video_formats['1080p'])
+        
         stdout, stderr = await _exec_proc(
             "yt-dlp",
             *(_cookies_args()),
             "-g",
             "-f",
-            "best[height<=?720][width<=?1280]",
+            format_selector,
             link,
         )
         return (1, stdout.decode().split("\n")[0]) if stdout else (0, stderr.decode())
@@ -260,10 +309,7 @@ class YouTubeAPI:
             if cached and now - cached[0] < YOUTUBE_META_TTL:
                 return cached[1], cached[2]
 
-        opts = {"quiet": True}
-        cf = _cookiefile_path()
-        if cf:
-            opts["cookiefile"] = cf
+        opts = _get_optimized_yt_dlp_opts(_cookiefile_path(), "info")
         out: List[Dict] = []
         try:
             with yt_dlp.YoutubeDL(opts) as ydl:
@@ -271,7 +317,11 @@ class YouTubeAPI:
                 for fmt in info.get("formats", []):
                     if "dash" in str(fmt.get("format", "")).lower():
                         continue
-                    need = ("format", "filesize", "filesize_approx", "format_id", "ext", "format_note")
+                    # Filter for good quality formats (prioritize 1080p and below)
+                    height = fmt.get("height", 0)
+                    if height and height > 1080:
+                        continue
+                        
                     if not any(k in fmt for k in ("filesize", "filesize_approx")):
                         continue
                     if not all(k in fmt for k in ("format", "format_id", "ext", "format_note")):
@@ -279,18 +329,31 @@ class YouTubeAPI:
                     size = fmt.get("filesize") or fmt.get("filesize_approx")
                     if not size:
                         continue
-                    out.append(
-                        {
-                            "format": fmt["format"],
-                            "filesize": size,
-                            "format_id": fmt["format_id"],
-                            "ext": fmt["ext"],
-                            "format_note": fmt["format_note"],
-                            "yturl": link,
-                        }
-                    )
+                        
+                    # Add quality info for better selection
+                    format_data = {
+                        "format": fmt["format"],
+                        "filesize": size,
+                        "format_id": fmt["format_id"],
+                        "ext": fmt["ext"],
+                        "format_note": fmt["format_note"],
+                        "yturl": link,
+                        "height": height,
+                        "width": fmt.get("width", 0),
+                        "fps": fmt.get("fps", 0),
+                        "vcodec": fmt.get("vcodec", ""),
+                        "acodec": fmt.get("acodec", ""),
+                    }
+                    out.append(format_data)
         except Exception:
             pass
+
+        # Sort formats by quality (1080p first, then 720p, etc.)
+        out.sort(key=lambda x: (
+            -x.get("height", 0),  # Higher resolution first
+            -x.get("fps", 0),     # Higher fps first
+            -x.get("filesize", 0) # Larger file (better quality) first
+        ))
 
         async with _formats_lock:
             if len(_formats_cache) > YOUTUBE_META_MAX:
@@ -329,6 +392,7 @@ class YouTubeAPI:
         songvideo: Union[bool, str, None] = None,
         format_id: Union[bool, str, None] = None,
         title: Union[bool, str, None] = None,
+        quality: str = "1080p"
     ) -> Union[Tuple[str, Optional[bool]], Tuple[None, None]]:
         link = self._prepare_link(link, videoid)
 
@@ -346,23 +410,24 @@ class YouTubeAPI:
 
         if video:
             if await self.is_live(link):
-                status, stream_url = await self.video(link)
+                status, stream_url = await self.video(link, quality=quality)
                 if status == 1:
                     return stream_url, None
                 raise ValueError("Unable to fetch live stream link")
             if await is_on_off(1):
-                p = await yt_dlp_download(link, type="video")
+                # Use optimized download with better quality settings
+                p = await yt_dlp_download(
+                    link, 
+                    type="video", 
+                    format_id=format_id,
+                    quality=quality
+                )
                 return (p, True) if p else (None, None)
-            stdout, _ = await _exec_proc(
-                "yt-dlp",
-                *(_cookies_args()),
-                "-g",
-                "-f",
-                "best[height<=?720][width<=?1280]",
-                link,
-            )
-            if stdout:
-                return stdout.decode().split("\n")[0], None
+            
+            # For streaming, get the best quality URL up to 1080p
+            status, stream_url = await self.video(link, quality=quality)
+            if status == 1:
+                return stream_url, None
             return None, None
 
         p = await download_audio_concurrent(link)
