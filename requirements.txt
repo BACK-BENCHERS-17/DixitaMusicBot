@@ -5,6 +5,7 @@ asyncio
 bs4
 ffmpeg-python
 future==1.0.0
+flask
 gitpython
 heroku3
 httpx==0.28.1
