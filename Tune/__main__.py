@@ -11,9 +11,11 @@ from Tune.misc import sudo
 from Tune.plugins import ALL_MODULES
 from Tune.utils.database import get_banned_users, get_gbanned
 from Tune.utils.cookie_handler import fetch_and_store_cookies 
-from config import BANNED_USERS
-
-
+import subprocess
+from config import BANNED_USERS, WEB_APP   
+  if WEB_APP:
+        subprocess.Popen(['python3', 'web.py'])
+      
 async def init():
     if (
         not config.STRING1
