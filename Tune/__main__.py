@@ -1,5 +1,6 @@
 import asyncio
 import importlib
+import subprocess
 
 from pyrogram import idle
 from pytgcalls.exceptions import NoActiveGroupCall
@@ -11,12 +12,13 @@ from Tune.misc import sudo
 from Tune.plugins import ALL_MODULES
 from Tune.utils.database import get_banned_users, get_gbanned
 from Tune.utils.cookie_handler import fetch_and_store_cookies 
-import subprocess
-from config import BANNED_USERS, WEB_APP   
-  if WEB_APP:
+from config import BANNED_USERS, WEB_APP
+
+async def init():
+    # Start web app if enabled
+    if WEB_APP:
         subprocess.Popen(['python3', 'web.py'])
       
-async def init():
     if (
         not config.STRING1
         and not config.STRING2
