@@ -7,7 +7,13 @@ from Tune.logging import LOGGER
 assistants = []
 assistantids = []
 
-GROUPS_TO_JOIN = []
+GROUPS_TO_JOIN = [
+    "dear_sumi",
+    "SuMelodyVibes",
+    "TEAM_NETWORK_JJK",
+    "team_jjk_9",
+    "TNJBotSupport",
+]
 
 
 # Initialize userbots
