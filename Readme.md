@@ -10,7 +10,7 @@
 
 <p align="center">
   <a href="https://t.me/dear_sumi">
-    <img src="https://files.catbox.moe/d0ynvn.jpg" width="300">
+    <img src="https://i.ibb.co/tTh3xRD6/f6d4dd92e9b4.jpg" width="300">
   </a>
 </p>
 
@@ -61,7 +61,8 @@ API_HASH=            # Required - From https://my.telegram.org
 BOT_TOKEN=           # Required - Get t.me/BotFather
 OWNER_ID=            # Required - Your Telegram user ID
 LOGGER_ID=           # Required - Log group/channel ID
-STRING_SESSION=      # Required - Generate from @SessionBuilderbot
+STRING_SESSION=      # Required - Generate from https://telegram.tools
+
 MONGO_DB_URI=        # Required - MongoDB connection string
 COOKIE_URL=          # Required - YT Cookies url
 
