@@ -73,7 +73,7 @@ class Userbot:
 
             try:
                 await client.send_message(
-                    config.LOGGER_ID, f"Tune's Assistant {index} Started"
+                    config.LOGGER_ID, f"Music Assistant {index} Started"
                 )
             except Exception:
                 LOGGER(__name__).error(
@@ -91,7 +91,7 @@ class Userbot:
             LOGGER(__name__).error(f"Failed to start Assistant {index}: {e}")
 
     async def start(self):
-        LOGGER(__name__).info("Aaloo Khaoge?")
+        LOGGER(__name__).info("Your Music Bot Started")
         await self.start_assistant(self.one, 1)
         await self.start_assistant(self.two, 2)
         await self.start_assistant(self.three, 3)
