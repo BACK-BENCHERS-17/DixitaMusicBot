@@ -1,11 +1,12 @@
 {
-  "name": "˹ᴛᴜɴᴇ ᴠɪᴀ ʙᴏᴛ˼",
+  "name": "Dixita Music Bot",
   "description": "A Telegram Music Player Bot, written in Python with Pyrogram and Py-Tgcalls.",
   "logo": "https://files.catbox.moe/7udxph.jpg",
   "keywords": [
   "python3",
   "telegram",
   "MusicBot",
+  "DixitaMusicBot",
   "py-tgcalls",
   "pyrogram"
   ],
@@ -69,7 +70,22 @@
       "description": "The name of your Heroku app. Required if using HEROKU_API_KEY for deployments.",
       "required": false,
       "value": ""
-    }
+    }, 
+    "WEB_APP": {
+      "description": "Flask web subprocess",
+      "required": false,
+      "value": "False"
+    }, 
+    "SUPPORT_CHAT": {
+      "description": "Support group username without @",
+      "required": false,
+      "value": ""
+    }, 
+    "SUPPORT_CHANNEL": {
+      "description": "Support channel username without @",
+      "required": false,
+      "value": ""
+    } 
   },
   "buildpacks": [
     {
