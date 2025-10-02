@@ -7,7 +7,7 @@
 </p>
 
 <h1 align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?color=FF69B4&width=500&lines=This+is+𝘿𝙞𝙭𝙞𝙩𝙖 ✘ 𝙈𝙪𝙨𝙞𝙘 🎶+%F0%9F%8E%B6;The+Ultimate+Telegram+Music+Bot" />
+  <img src="https://readme-typing-svg.herokuapp.com?color=FF69B4&width=500&lines=This+is+Dixita Music Bot+%F0%9F%8E%B6;The+Ultimate+Telegram+Music+Bot" />
 </h1>
 
 
