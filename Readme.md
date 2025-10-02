@@ -1,57 +1,39 @@
-<!-- ✨ Animated Header (Top) -->
 
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" />
-</p>
-
-<!-- 👤 Avatar + Typing Banner -->
-
-<div align="center">
-  <table>
-    <tr>
-      <td align="center">
-        <img src="https://files.catbox.moe/r2ga8f.jpg" width="90px" style="border-radius: 50%;" />
-      </td>
-      <td>
-        <img src="https://readme-typing-svg.herokuapp.com?color=00BFFF&width=600&lines=Hey+There,+This+is+Certified+Coder+%F0%9F%A5%80+%E2%9D%97%EF%B8%8F" />
-      </td>
-    </tr>
-  </table>
-</div>
 
 <!-- 👁 Visitor Counter -->
 
 <p align="center">
-  <img src="https://komarev.com/ghpvc/?username=CertifiedCoders&style=flat-square" />
+  <img src="https://komarev.com/ghpvc/?username=bisug&style=flat-square" />
 </p>
 
 <h1 align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?color=FF69B4&width=500&lines=Welcome+to+TuneViaBot+%F0%9F%8E%B6;The+Ultimate+Telegram+Music+Bot" />
+  <img src="https://readme-typing-svg.herokuapp.com?color=FF69B4&width=500&lines=This+is+𝘿𝙞𝙭𝙞𝙩𝙖 ✘ 𝙈𝙪𝙨𝙞𝙘 🎶+%F0%9F%8E%B6;The+Ultimate+Telegram+Music+Bot" />
 </h1>
 
 
 <p align="center">
-  <a href="https://t.me/CertifiedCoders">
+  <a href="https://t.me/dear_sumi">
     <img src="https://files.catbox.moe/d0ynvn.jpg" width="600">
   </a>
 </p>
 
 <p align="center">
-  <a href="https://t.me/TuneViaBot"><img src="https://img.shields.io/badge/Try%20Bot-@TuneViaBot-blue?style=for-the-badge&logo=telegram" /></a>
+  <a href="https://t.me/DixitaMusicBot"><img src="https://img.shields.io/badge/Try%20Bot-@DixitaMusicBot-blue?style=for-the-badge&logo=telegram" /></a>
 </p>
 
 
 <p align="center">
-  <a href="https://github.com/CertifiedCoders/TuneViaBot/stargazers"><img src="https://img.shields.io/github/stars/CertifiedCoders/TuneViaBot?style=flat-square"/></a>
-  <a href="https://github.com/CertifiedCoders/TuneViaBot/network/members"><img src="https://img.shields.io/github/forks/CertifiedCoders/TuneViaBot?style=flat-square"/></a>
+  <a href="https://github.com/bisug/DixitaMusicBot/stargazers"><img src="https://img.shields.io/github/stars/bisug/DixitaMusicBot?style=flat-square"/></a>
+  <a href="https://github.com/bisug/DixitaMusicBot/network/members"><img src="https://img.shields.io/github/forks/CertifiedCoders/TuneViaBot?style=flat-square"/></a>
   <a href="https://github.com/CertifiedCoders/TuneViaBot/issues"><img src="https://img.shields.io/github/issues/CertifiedCoders/TuneViaBot?style=flat-square"/></a>
   <a href="https://github.com/CertifiedCoders/TuneViaBot/commits/main"><img src="https://img.shields.io/github/last-commit/CertifiedCoders/TuneViaBot?style=flat-square"/></a>
   <a href="https://github.com/CertifiedCoders/TuneViaBot/actions"><img src="https://img.shields.io/badge/CI-Status-grey?style=flat-square"/></a>
 </p>
 
-## 🌟 What is TuneViaBot?
+## 🌟 What is 𝘿𝙞𝙭𝙞𝙩𝙖 ✘ 𝙈𝙪𝙨𝙞𝙘 🎶?
 
-**TuneViaBot** is a blazing fast, modern Telegram music bot built with **Pyrogram** and **PyTgCalls**. It streams high-quality music into your group voice chats and supports various platforms like YouTube, Spotify, Apple Music, and more.
+𝘿𝙞𝙭𝙞𝙩𝙖 ✘ 𝙈𝙪𝙨𝙞𝙘 🎶 is a blazing fast, modern Telegram music bot built with **Pyrogram** and **PyTgCalls**. It streams high-quality music into your group voice chats and supports various platforms like YouTube, Spotify, Apple Music, and more.
+Originally made by <a href="https://github.com/CertifiedCoders">ᴄᴇʀᴛɪғɪᴇᴅ ᴄᴏᴅᴇʀs</a>
 
 ## 🚀 Features
 <table>
@@ -134,12 +116,11 @@ API_URL=             # Optional - External API url for music Download
       </tr>
       <tr>
         <td><code>STRING_SESSION</code></td>
-        <td><a href="https://t.me/SessionBuilderbot" target="_blank">@SessionBuilderbot</a></td>
-        <td>
-          1) Start bot →
-          2) Provide <code>API_ID</code>/<code>API_HASH</code> →
-          3) Complete login →
-          4) Copy string
+        <td><href="https://telegram.tools/session-string-generator#pyrogram"t</a></td>
+        <td>        
+          1) Provide <code>API_ID</code>/<code>API_HASH</code> →
+          2) Complete login →
+          3) Copy string
         </td>
         <td>Userbot auth for Pyrogram.</td>
       </tr>
@@ -149,7 +130,7 @@ API_URL=             # Optional - External API url for music Download
         <td>
           1) Create private channel/group →
           2) Add your bot as admin →
-          3) Get ID via <code>@AnnieXRobot</code> or <code>@MissRose_Bot</code>
+          3) Get ID via <code>@MissRose_Bot</code>
         </td>
         <td>Use a private space so logs aren’t public.</td>
       </tr>
@@ -194,7 +175,7 @@ API_URL=             # Optional - External API url for music Download
   <details>
 
 ```bash
-🎵 Deploy TuneViaBot on VPS
+🎵 Deploy 𝘿𝙞𝙭𝙞𝙩𝙖 ✘ 𝙈𝙪𝙨𝙞𝙘 🎶 on VPS
 
 ### Step 1: Update & Install Packages
 sudo apt update && sudo apt upgrade -y
@@ -204,7 +185,7 @@ sudo apt install -y nodejs
 npm install -g npm
 
 ### Step 2: Clone Repo
-git clone https://github.com/CertifiedCoders/TuneViaBot
+git clone https://github.com/bisug/DixitaMusicBot
 cd TuneViaBot
 tmux new -s tune
 
@@ -236,7 +217,7 @@ rm -rf TuneViaBot  # Uninstall the repo
 
 ```bash
 ### Step 1: Clone Repo
-git clone https://github.com/CertifiedCoders/TuneViaBot
+git clone https://github.com/bisug/DixitaMusicBot
 cd TuneViaBot
 
 ### Step 2: Create .env File
@@ -263,40 +244,17 @@ docker rmi tuneviabot      # Remove image
 
 
 ##
-### ☁️ Quick Deploy
+### 🔗 String Session 
 
-| Platform                | Deploy Link                                                                                                                                                                                               |
-| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 🔑 **Generate Session** | <a href="https://t.me/SessionBuilderbot"><img src="https://img.shields.io/badge/Session%20-Generator-blue?style=for-the-badge&logo=telegram"/></a>                                                    |
-| 🌍 **Heroku Deploy**    | <a href="http://dashboard.heroku.com/new?template=https://github.com/CertifiedCoders/TuneViaBot"><img src="https://img.shields.io/badge/Deploy%20to-Heroku-purple?style=for-the-badge&logo=heroku"/></a> |
+#### 🔑 Generate String Session Safely 
+<a href="https://telegram.tools/session-string-generator#pyrogram"><img src="https://img.shields.io/badge/Generate%20Pyrogram%20String-Telegram%20Tools-blue?style=for-the-badge&logo=telegram" alt="Generate Pyrogram String"/></a>
 
-
-
-
-## 💬 Community & Support
-
-<p align="center">
-  <a href="https://t.me/CertifiedCoders">
-    <img src="https://img.shields.io/badge/Support_Group-Telegram-0088cc?style=for-the-badge&logo=telegram&logoColor=white" />
-  </a>
-  <a href="https://t.me/CertifiedCodes">
-    <img src="https://img.shields.io/badge/Updates_Channel-Telegram-6A5ACD?style=for-the-badge&logo=telegram&logoColor=white" />
-  </a>
-  <a href="https://t.me/CertifiedCoder">
-    <img src="https://img.shields.io/badge/Contact_Owner-Telegram-4CAF50?style=for-the-badge&logo=telegram&logoColor=white" />
-  </a>
-  <a href="https://youtube.com/@rajnisha3">
-    <img src="https://img.shields.io/badge/Subscribe-YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white" />
-  </a>
-  <a href="https://instagram.com/rajnishthegreat">
-    <img src="https://img.shields.io/badge/Follow-Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white" />
-  </a>
-  <a href="mailto:rajnishmishraaa1@gmail.com">
-    <img src="https://img.shields.io/badge/Contact-Email-0078D4?style=for-the-badge&logo=gmail&logoColor=white" />
-  </a>
-</p>
-
-
+#### 🚀 Quick Deploy
+| Platform | Deploy Button |
+|----------|-------------|
+| **Heroku** | <a href="https://dashboard.heroku.com/new?template=https://github.com/bisug/DixitaMusicBot"><img src="https://img.shields.io/badge/Deploy%20to-Heroku-430098?style=for-the-badge&logo=heroku" alt="Deploy to Heroku"/></a> |
+| **Render** | <a href="https://render.com/deploy?repo=https://github.com/bisug/DixitaMusicBot"><img src="https://img.shields.io/badge/Deploy%20to-Render-46B3B3?style=for-the-badge&logo=render" alt="Deploy to Render"/></a> |
+| **Koyeb** | <a href="https://app.koyeb.com/deploy?type=git&repository=https://github.com/bisug/DixitaMusicBot"><img src="https://img.shields.io/badge/Deploy%20to-Koyeb-121212?style=for-the-badge&logo=koyeb" alt="Deploy to Koyeb"/></a> |
 ##
 ### 🔖 Credits
 
