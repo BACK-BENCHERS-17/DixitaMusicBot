@@ -21,5 +21,6 @@ def private_panel(_):
         ],
         [
             InlineKeyboardButton(text=_["S_B_3"], callback_data="open_help"),
+            InlineKeyboardButton(text=_["S_B_5"], url=config.UPSTREAM_REPO),
         ],
     ]
