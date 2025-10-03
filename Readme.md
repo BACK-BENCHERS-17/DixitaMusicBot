@@ -1,4 +1,13 @@
-# 🎵 Dixita Music Bot
+
+
+<!-- Banner -->
+<div align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=200&section=header&text=Dixita+Music+Bot&fontSize=60&fontAlign=50&fontAlignY=35&animation=fadeIn" />
+</div>
+
+<h1 align="center">
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=30&duration=4000&pause=1000&color=FF69B4&center=true&vCenter=true&width=600&height=80&lines=🚀+Ultimate+Telegram+Music+Bot;⚡+High+Quality+Audio+Streaming;🎯+Multi-Platform+Support;🔥+24%2F7+Active+Development" />
+</h1>
 
 <p align="center">
   <img src="https://komarev.com/ghpvc/?username=bisug&style=flat-square&color=blue" />
@@ -8,16 +17,6 @@
   <img src="https://img.shields.io/github/last-commit/bisug/DixitaMusicBot?style=flat-square&color=purple" />
   <img src="https://img.shields.io/github/license/bisug/DixitaMusicBot?style=flat-square&color=orange" />
   <img src="https://img.shields.io/github/repo-size/bisug/DixitaMusicBot?style=flat-square&color=lightgrey" />
-</p>
-
-<h1 align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=30&duration=4000&pause=1000&color=FF69B4&center=true&vCenter=true&width=600&height=80&lines=🎶+Dixita+Music+Bot+🎵;🚀+Ultimate+Telegram+Music+Bot;⚡+High+Quality+Audio+Streaming;🎯+Multi-Platform+Support;🔥+24%2F7+Active+Development" />
-</h1>
-
-<p align="center">
-  <a href="https://t.me/DixitaMusicBot">
-    <img src="https://i.ibb.co/tTh3xRD6/f6d4dd92e9b4.jpg" width="400">
-  </a>
 </p>
 
 ## 🤖 Live Bot
