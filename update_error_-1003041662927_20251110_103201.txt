@@ -1,0 +1,27 @@
+Traceback (most recent call last):
+  File "/storage/self/primary/telegrammusicbot/Tune/utils/errors.py", line 142, in wrapper
+    return await func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/storage/self/primary/telegrammusicbot/Tune/core/call.py", line 188, in stop_stream
+    assistant = await group_assistant(self, chat_id)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/storage/self/primary/telegrammusicbot/Tune/utils/database.py", line 132, in group_assistant
+    dbassistant = await assdb.find_one({"chat_id": chat_id})
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: object dict can't be used in 'await' expression
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/storage/self/primary/telegrammusicbot/Tune/core/call.py", line 577, in unified_update_handler
+    await self.stop_stream(update.chat_id)
+  File "/storage/self/primary/telegrammusicbot/Tune/utils/errors.py", line 147, in wrapper
+    await handle_trace(err, tb, "Internal Error", filename, extras)
+  File "/storage/self/primary/telegrammusicbot/Tune/utils/errors.py", line 68, in handle_trace
+    await app.send_message(LOGGER_ID, caption)
+  File "/usr/local/lib/python3.13/dist-packages/pyrogram/methods/messages/send_message.py", line 246, in send_message
+    peer = await self.resolve_peer(chat_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/pyrogram/methods/advanced/resolve_peer.py", line 54, in resolve_peer
+    raise ConnectionError("Client has not been started yet")
+ConnectionError: Client has not been started yet
